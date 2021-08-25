@@ -16,16 +16,8 @@ class AllEmployee(APIView):
 class AddEmployee(APIView):
 
     def post(self, request):
-        
-        data = {
 
-            'name':request.data['name'],
-            'age':request.data['age'],
-            'password':request.data['password']
-
-        }
-
-        employee_serializer = EmployeeModel(data=request.data)
+        employee_serializer = EmployeeSerializer(data=request.data)
         
         if employee_serializer.is_valid():
             employee_serializer.save()
