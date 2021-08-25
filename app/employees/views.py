@@ -11,3 +11,24 @@ class AllEmployee(APIView):
         employees = EmployeeModel.objects.all()
         employee_serializer = EmployeeSerializer(employees, many=True)
         return Response(employee_serializer.data)
+
+
+class AddEmployee(APIView):
+
+    def post(self, request):
+        
+        data = {
+
+            'name':request.data['name'],
+            'age':request.data['age'],
+            'password':request.data['password']
+
+        }
+
+        employee_serializer = EmployeeModel(data=request.data)
+        
+        if employee_serializer.is_valid():
+            employee_serializer.save()
+            return Response(employee_serializer.data)
+        else:
+            return Response('Did not work')
