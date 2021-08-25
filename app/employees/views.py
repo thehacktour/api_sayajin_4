@@ -45,3 +45,12 @@ class SpecificEmployee(APIView):
         user.delete()
         return Response(user_serializer.data)
     
+    def put(self, request, id):
+
+        user = self.get_user(id)
+        user_serializer = EmployeeSerializer(user, data=request.data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response(user_serializer.data)
+        else:
+            return Response('Did not work')
