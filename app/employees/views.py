@@ -24,3 +24,24 @@ class AddEmployee(APIView):
             return Response(employee_serializer.data)
         else:
             return Response('Did not work')
+
+class SpecificEmployee(APIView):
+
+    def get_object(self, id):
+        try:
+            return EmployeeModel.objects.get(id=id)
+        except EmployeeModel.DoesNotExist:
+            return Response('does not exist')
+    
+    def get(self, request, id):
+        employee = self.get_object(id)
+        employee_serializer = EmployeeSerializer(employee)
+        return Response(employee_serializer.data)
+
+    def delete(self, request, id):
+
+        user = self.get_object(id)
+        user_serializer = EmployeeSerializer(user)
+        user.delete()
+        return Response(user_serializer.data)
+    
